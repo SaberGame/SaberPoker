@@ -24,8 +24,8 @@
 		3B5C17751D878FBF00442940 /* View+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5C17681D878FBF00442940 /* View+MASAdditions.m */; };
 		3B5C17761D878FBF00442940 /* ViewController+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5C176B1D878FBF00442940 /* ViewController+MASAdditions.m */; };
 		3B5C177C1D87911E00442940 /* UIImage+SLCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5C177B1D87911E00442940 /* UIImage+SLCategory.m */; };
+		3B5C177F1D87F0E600442940 /* SLPlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5C177E1D87F0E600442940 /* SLPlayView.m */; };
 		3BB2C2491D82B6A8000AF85A /* SLCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BB2C23A1D82B6A8000AF85A /* SLCard.m */; };
-		3BB2C24A1D82B6A8000AF85A /* SLCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BB2C23C1D82B6A8000AF85A /* SLCardView.m */; };
 		3BB2C24B1D82B6A8000AF85A /* SLHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BB2C23F1D82B6A8000AF85A /* SLHomeViewController.m */; };
 		3BB2C24C1D82B6A8000AF85A /* SLMianViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BB2C2421D82B6A8000AF85A /* SLMianViewController.m */; };
 		3BB2C24D1D82B6A8000AF85A /* SLPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BB2C2451D82B6A8000AF85A /* SLPlayer.m */; };
@@ -70,10 +70,10 @@
 		3B5C176B1D878FBF00442940 /* ViewController+MASAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ViewController+MASAdditions.m"; sourceTree = "<group>"; };
 		3B5C177A1D87911E00442940 /* UIImage+SLCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+SLCategory.h"; sourceTree = "<group>"; };
 		3B5C177B1D87911E00442940 /* UIImage+SLCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+SLCategory.m"; sourceTree = "<group>"; };
+		3B5C177D1D87F0E600442940 /* SLPlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLPlayView.h; sourceTree = "<group>"; };
+		3B5C177E1D87F0E600442940 /* SLPlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLPlayView.m; sourceTree = "<group>"; };
 		3BB2C2391D82B6A8000AF85A /* SLCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLCard.h; sourceTree = "<group>"; };
 		3BB2C23A1D82B6A8000AF85A /* SLCard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLCard.m; sourceTree = "<group>"; };
-		3BB2C23B1D82B6A8000AF85A /* SLCardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLCardView.h; sourceTree = "<group>"; };
-		3BB2C23C1D82B6A8000AF85A /* SLCardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLCardView.m; sourceTree = "<group>"; };
 		3BB2C23E1D82B6A8000AF85A /* SLHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLHomeViewController.h; sourceTree = "<group>"; };
 		3BB2C23F1D82B6A8000AF85A /* SLHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLHomeViewController.m; sourceTree = "<group>"; };
 		3BB2C2411D82B6A8000AF85A /* SLMianViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMianViewController.h; sourceTree = "<group>"; };
@@ -204,8 +204,6 @@
 			children = (
 				3BB2C2391D82B6A8000AF85A /* SLCard.h */,
 				3BB2C23A1D82B6A8000AF85A /* SLCard.m */,
-				3BB2C23B1D82B6A8000AF85A /* SLCardView.h */,
-				3BB2C23C1D82B6A8000AF85A /* SLCardView.m */,
 			);
 			path = Card;
 			sourceTree = "<group>";
@@ -233,6 +231,8 @@
 			children = (
 				3BB2C2441D82B6A8000AF85A /* SLPlayer.h */,
 				3BB2C2451D82B6A8000AF85A /* SLPlayer.m */,
+				3B5C177D1D87F0E600442940 /* SLPlayView.h */,
+				3B5C177E1D87F0E600442940 /* SLPlayView.m */,
 			);
 			path = Player;
 			sourceTree = "<group>";
@@ -335,8 +335,8 @@
 				3B5C177C1D87911E00442940 /* UIImage+SLCategory.m in Sources */,
 				3B5C17741D878FBF00442940 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				3B5C174F1D869C4800442940 /* SLPlayCards.m in Sources */,
+				3B5C177F1D87F0E600442940 /* SLPlayView.m in Sources */,
 				3BB2C24B1D82B6A8000AF85A /* SLHomeViewController.m in Sources */,
-				3BB2C24A1D82B6A8000AF85A /* SLCardView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -16,7 +16,7 @@
 @property (nonatomic, assign) BOOL isLord;
 
 - (void)drawCard:(SLCard *)card;
-- (NSArray *)playCards;
+- (void)playCards:(NSArray *)arr;
 - (void)logAllCardsInHand;
 
 @end

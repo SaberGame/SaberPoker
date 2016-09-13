@@ -27,13 +27,13 @@ typedef NS_ENUM(NSInteger, SLPlayCardsType) {
     SLPlayCardsTypeConsecutiveTripleWith0_4,    //飞机（4连）
     SLPlayCardsTypeConsecutiveTripleWith0_5,    //飞机（5连）
     SLPlayCardsTypeConsecutiveTripleWith0_6,    //飞机（6连）
-    SLPlayCardsTypeConsecutiveTripleWith1_2,
-    SLPlayCardsTypeConsecutiveTripleWith1_3,
-    SLPlayCardsTypeConsecutiveTripleWith1_4,
-    SLPlayCardsTypeConsecutiveTripleWith1_5,
-    SLPlayCardsTypeConsecutiveTripleWith2_2,
-    SLPlayCardsTypeConsecutiveTripleWith2_3,
-    SLPlayCardsTypeConsecutiveTripleWith2_4,
+    SLPlayCardsTypeConsecutiveTripleWith1_2,    //三带一飞机（2连）
+    SLPlayCardsTypeConsecutiveTripleWith1_3,    //三带一飞机（3连）
+    SLPlayCardsTypeConsecutiveTripleWith1_4,    //三带一飞机（4连）
+    SLPlayCardsTypeConsecutiveTripleWith1_5,    //三带一飞机（5连）
+    SLPlayCardsTypeConsecutiveTripleWith2_2,    //三带对飞机（2连）
+    SLPlayCardsTypeConsecutiveTripleWith2_3,    //三带对飞机（3连）
+    SLPlayCardsTypeConsecutiveTripleWith2_4,    //三带对飞机（4连）
     SLPlayCardsTypeStraightWith5,               //顺子（5张）
     SLPlayCardsTypeStraightWith6,               //顺子（6张）
     SLPlayCardsTypeStraightWith7,               //顺子（7张）

@@ -44,9 +44,10 @@
 
 }
 
-- (NSArray *)playCards {
-    
-    return nil;
+- (void)playCards:(NSArray *)arr {
+    for (SLCard *card in arr) {
+        [self.cardsArray removeObject:card];
+    }
 }
 
 - (void)logAllCardsInHand {
