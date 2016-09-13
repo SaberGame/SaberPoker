@@ -11,12 +11,16 @@
 
 @implementation SLPlayCards
 
+#pragma mark -------------------- Configure Type --------------------
+
 - (SLPlayCardsType)configureType {
     
+    //单张
     if (self.cardsArray.count == 1) {
         return SLPlayCardsTypeSingle;
     }
     
+    //对子
     if (self.cardsArray.count == 2) {
         SLCard *card1 = self.cardsArray.firstObject;
         SLCard *card2 = self.cardsArray.lastObject;
@@ -25,6 +29,7 @@
         }
     }
     
+    //三张
     if (self.cardsArray.count == 3) {
         SLCard *card1 = self.cardsArray[0];
         SLCard *card2 = self.cardsArray[1];
@@ -34,6 +39,7 @@
         }
     }
     
+    //三带一
     if (self.cardsArray.count == 4) {
         NSMutableDictionary *dic = [NSMutableDictionary dictionary];
         for (SLCard *card in self.cardsArray) {
@@ -53,6 +59,7 @@
         }
     }
     
+    //三带二
     if (self.cardsArray.count == 5) {
         NSMutableDictionary *dic = [NSMutableDictionary dictionary];
         for (SLCard *card in self.cardsArray) {
@@ -72,13 +79,150 @@
         }
     }
     
+    //连对
     SLPlayCardsType ConsecutiveDoubleType = [self configureConsecutiveDoubleWithCardsArray:self.cardsArray];
     if (ConsecutiveDoubleType != SLPlayCardsTypeInvalid) {
         return ConsecutiveDoubleType;
     }
     
+    //顺子
+    SLPlayCardsType straightType = [self configureStraightWithCardsArray:self.cardsArray];
+    if (straightType != SLPlayCardsTypeInvalid) {
+        return straightType;
+    }
+    
+    //炸弹
+    if (self.cardsArray.count == 4) {
+        int a = 0;
+        SLCard *firstCard = self.cardsArray.firstObject;
+        for (SLCard *card in self.cardsArray) {
+            if (card.point == firstCard.point) {
+                a++;
+            }
+        }
+        if (a == 4) {
+            return SLPlayCardsTypeBomb;
+        }
+    }
+    
+    //王炸
+    if (self.cardsArray.count == 2) {
+        SLCard *card1 = self.cardsArray.firstObject;
+        SLCard *card2 = self.cardsArray.lastObject;
+        if ((card1.point == 14 && card2.point == 15) || (card1.point == 15 && card2.point == 14)) {
+            return SLPlayCardsTypeSuperBomb;
+        }
+    }
+    
+    //四带二
+    if (self.cardsArray.count == 6) {
+        
+        SLCard *card1 = self.cardsArray[0];
+        SLCard *card2 = self.cardsArray[1];
+        SLCard *card3 = self.cardsArray[2];
+        int a, b, c = 0;
+        for (int i = 0; i < 4; i++) {
+            SLCard *card = self.cardsArray[i];
+            if (card.point == card1.point) {
+                a++;
+            }
+        }
+        
+        for (int i = 1; i < 5; i++) {
+            SLCard *card = self.cardsArray[i];
+            if (card.point == card2.point) {
+                b++;
+            }
+        }
+        
+        for (int i = 2; i < 6; i++) {
+            SLCard *card = self.cardsArray[i];
+            if (card.point == card3.point) {
+                c++;
+            }
+        }
+        
+        if (a == 4 || b == 4 || c == 4  ) {
+            return SLPlayCardsTypeFourWith2;
+        }
+    }
+    
+    //飞机
+    
+    
     return SLPlayCardsTypeInvalid;
 }
+
+#pragma mark -------------------- Configure Straight --------------------
+
+- (SLPlayCardsType)configureStraightWithCardsArray:(NSArray *)arr {
+    
+    int a = 0;
+    for (int i = 1; i < arr.count; i++) {
+        SLCard *card1 = arr[i];
+        SLCard *card2 = arr[i - 1];
+        if (card1.level - card2.level == 1 && card1.level <= 13) {
+            a++;
+        } else {
+            return SLPlayCardsTypeInvalid;
+        }
+    }
+    
+    if (a != arr.count - 1) {
+        return SLPlayCardsTypeInvalid;
+    } else {
+        switch (a + 1) {
+            case 5:
+                return SLPlayCardsTypeStraightWith5;
+                break;
+                
+            case 6:
+                return SLPlayCardsTypeStraightWith6;
+                break;
+                
+            case 7:
+                return SLPlayCardsTypeStraightWith7;
+                break;
+                
+            case 8:
+                return SLPlayCardsTypeStraightWith8;
+                break;
+                
+            case 9:
+                return SLPlayCardsTypeStraightWith9;
+                break;
+                
+            case 10:
+                return SLPlayCardsTypeStraightWith10;
+                break;
+                
+            case 11:
+                return SLPlayCardsTypeStraightWith11;
+                break;
+                
+            case 12:
+                return SLPlayCardsTypeStraightWith12;
+                break;
+                
+            default:
+                return SLPlayCardsTypeInvalid;
+                break;
+        }
+    }
+
+}
+
+#pragma mark -------------------- Configure ConsecutiveTriple --------------------
+
+- (SLPlayCardsType)configureConsecutiveTripleWithCardsArray:(NSArray *)arr {
+    
+    
+    
+    
+    return 0;
+}
+
+#pragma mark -------------------- Configure ConsecutiveDouble --------------------
 
 - (SLPlayCardsType)configureConsecutiveDoubleWithCardsArray:(NSArray *)arr {
     if (self.cardsArray.count == 6) {
@@ -181,7 +325,7 @@
 }
 
 
-
+#pragma mark -------------------- Compare --------------------
 
 - (BOOL)beatTargetPlaysCards:(SLPlayCards *)other {
     if ([self configureType] != [other configureType]) {
