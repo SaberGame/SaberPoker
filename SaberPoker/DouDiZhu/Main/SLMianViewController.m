@@ -62,6 +62,38 @@
         [_playerOne drawCard:[_pool drawCard]];
     }
     
+    //test
+    [_playerOne.cardsArray removeAllObjects];
+    for (int i = 0; i < 3; i++) {
+        SLCard *card1 = [[SLCard alloc] init];
+        card1.point = 1;
+        [_playerOne.cardsArray addObject:card1];
+        
+        SLCard *card2 = [[SLCard alloc] init];
+        card2.point = 13;
+        [_playerOne.cardsArray addObject:card2];
+        
+        SLCard *card3 = [[SLCard alloc] init];
+        card3.point = 12;
+        [_playerOne.cardsArray addObject:card3];
+        
+        SLCard *card4 = [[SLCard alloc] init];
+        card4.point = 11;
+        [_playerOne.cardsArray addObject:card4];
+        
+        SLCard *card5 = [[SLCard alloc] init];
+        card5.point = 10;
+        [_playerOne.cardsArray addObject:card5];
+        
+        SLCard *card6 = [[SLCard alloc] init];
+        card6.point = 9;
+        [_playerOne.cardsArray addObject:card6];
+        
+        SLCard *card7 = [[SLCard alloc] init];
+        card7.point = 9;
+        [_playerOne.cardsArray addObject:card7];
+    }
+    
     [_playerOne logAllCardsInHand];
     [_playerTwo logAllCardsInHand];
     [_playerThree logAllCardsInHand];
@@ -147,7 +179,6 @@
 
 - (void)playCard {
     _playCards.cardsArray = _playCardsArray;
-    
     SLPlayCardsType type = [_playCards configureType];
     [self clearCard];
     _playButton.enabled = NO;

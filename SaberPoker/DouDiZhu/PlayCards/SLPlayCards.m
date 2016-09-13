@@ -148,7 +148,10 @@
     }
     
     //飞机
-    
+    SLPlayCardsType consecutiveTripleType = [self configureConsecutiveTripleWithCardsArray:self.cardsArray];
+    if (consecutiveTripleType != SLPlayCardsTypeInvalid) {
+        return consecutiveTripleType;
+    }
     
     return SLPlayCardsTypeInvalid;
 }
@@ -161,7 +164,7 @@
     for (int i = 1; i < arr.count; i++) {
         SLCard *card1 = arr[i];
         SLCard *card2 = arr[i - 1];
-        if (card1.level - card2.level == 1 && card1.level <= 13) {
+        if (card1.level - card2.level == 1 && card1.level < 13) {
             a++;
         } else {
             return SLPlayCardsTypeInvalid;
@@ -216,10 +219,190 @@
 
 - (SLPlayCardsType)configureConsecutiveTripleWithCardsArray:(NSArray *)arr {
     
+    //飞机不带
+    if (arr.count % 3 == 0) {
+        NSInteger count = arr.count / 3;
+        int a= 0;
+        for (int i = 0; i < arr.count; i+=3) {
+            SLCard *card1 = arr[i];
+            SLCard *card2 = arr[i+1];
+            SLCard *card3 = arr[i + 2];
+            if (card1.point == card2.point && card2.point == card3.point && card1.point == card3.point) {
+                a++;
+            }
+        }
+        
+        if (a == count) {
+            SLCard *firstCard = arr.firstObject;
+            int b = 0;
+            for (int i = 0; i < arr.count; i+=3) {
+                SLCard *card = arr[i];
+                if (card.level - firstCard.level == i / 3 && card.level <= 12) {
+                    b++;
+                }
+            }
+            
+            if (b == count && count >= 2) {
+                switch (count) {
+                    case 2:
+                        return SLPlayCardsTypeConsecutiveTripleWith0_2;
+                        break;
+                        
+                    case 3:
+                        return SLPlayCardsTypeConsecutiveTripleWith0_3;
+                        break;
+                        
+                    case 4:
+                        return SLPlayCardsTypeConsecutiveTripleWith0_4;
+                        break;
+                        
+                    case 5:
+                        return SLPlayCardsTypeConsecutiveTripleWith0_5;
+                        break;
+                        
+                    case 6:
+                        return SLPlayCardsTypeConsecutiveTripleWith0_6;
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }
+        }
+    }
     
+    //飞机带单
+    if (arr.count % 4 == 0) {
+        NSInteger count = arr.count / 4;
+        int a = 0;
+        NSMutableArray *levelArray = [NSMutableArray array];
+        for (int i = 0; i < arr.count - 2; i++) {
+            SLCard *card1 = arr[i];
+            SLCard *card2 = arr[i + 1];
+            SLCard *card3 = arr[i + 2];
+            if (card1.point == card2.point && card2.point == card3.point && card1.point == card3.point && card3 && card3.level < 13) {
+                a++;
+                [levelArray addObject:@(card3.level)];
+                i += 2;
+            }
+        }
+        if (a == count) {
+            NSNumber *firstLevel = levelArray.firstObject;
+            int c = 0;
+            for (int i = 0; i < levelArray.count; i++) {
+                NSNumber *level = levelArray[i];
+                if (level.integerValue - firstLevel.integerValue == i) {
+                    c++;
+                }
+            }
+            
+            if (c == count) {
+                switch (count) {
+                    case 2:
+                        return SLPlayCardsTypeConsecutiveTripleWith1_2;
+                        break;
+                        
+                    case 3:
+                        return SLPlayCardsTypeConsecutiveTripleWith1_3;
+                        break;
+                        
+                    case 4:
+                        return SLPlayCardsTypeConsecutiveTripleWith1_4;
+                        break;
+                        
+                    case 5:
+                        return SLPlayCardsTypeConsecutiveTripleWith1_5;
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }
+        }
+    }
     
+    //飞机带对
+    if (arr.count % 5 == 0) {
+        NSInteger count = arr.count / 5;
+        int a = 0;
+        NSMutableArray *levelArray = [NSMutableArray array];
+        for (int i = 0; i < arr.count - 2; i++) {
+            SLCard *card1 = arr[i];
+            SLCard *card2 = arr[i + 1];
+            SLCard *card3 = arr[i + 2];
+            if (card1.point == card2.point && card2.point == card3.point && card1.point == card3.point && card3 && card3.level < 13) {
+                a++;
+                [levelArray addObject:@(card3.level)];
+                i += 2;
+            }
+        }
+        
+        if (a == count) {
+            NSNumber *firstLevel = levelArray.firstObject;
+            int c = 0;
+            for (int i = 0; i < levelArray.count; i++) {
+                NSNumber *level = levelArray[i];
+                if (level.integerValue - firstLevel.integerValue == i) {
+                    c++;
+                }
+            }
+            
+            if (c == count) {
+                NSMutableArray *newArr = arr.mutableCopy;
+                NSMutableArray *indexArray = [NSMutableArray array];
+                
+                    
+                    for (NSNumber *level in levelArray) {
+                        for (int i = 0; i < newArr.count; i++) {
+                            SLCard *card = newArr[i];
+                            if (level.integerValue == card.level) {
+                                [indexArray addObject:@(i)];
+                            }
+                        }
+                        
+                    }
+                
+                
+                for (NSInteger i = indexArray.count - 1; i >= 0; i--) {
+                    NSNumber *index = indexArray[i];
+                    [newArr removeObjectAtIndex:index.integerValue];
+                }
+                
+                
+                if (newArr.count % 2 == 0) {
+                    int d = 0;
+                    for (int i = 0; i < newArr.count; i+=2) {
+                        SLCard *first = newArr[i];
+                        SLCard *next = newArr[i + 1];
+                        if (first.point == next.point) {
+                            d++;
+                        }
+                    }
+                    
+                    if (d == newArr.count / 2) {
+                        switch (d) {
+                            case 2:
+                                return SLPlayCardsTypeConsecutiveTripleWith2_2;
+                                break;
+                                
+                            case 3:
+                                return SLPlayCardsTypeConsecutiveTripleWith2_3;
+                                break;
+                                
+                            case 4:
+                                return SLPlayCardsTypeConsecutiveTripleWith2_4;
+                                break;
+                                
+                            default:
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+    }
     
-    return 0;
+    return SLPlayCardsTypeInvalid;
 }
 
 #pragma mark -------------------- Configure ConsecutiveDouble --------------------

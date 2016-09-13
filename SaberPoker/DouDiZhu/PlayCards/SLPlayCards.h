@@ -22,11 +22,11 @@ typedef NS_ENUM(NSInteger, SLPlayCardsType) {
     SLPlayCardsTypeConsecutiveDouble8,          //八连对
     SLPlayCardsTypeConsecutiveDouble9,          //九连对
     SLPlayCardsTypeConsecutiveDouble10,         //十连对
-    SLPlayCardsTypeConsecutiveTripleWith0_2,
-    SLPlayCardsTypeConsecutiveTripleWith0_3,
-    SLPlayCardsTypeConsecutiveTripleWith0_4,
-    SLPlayCardsTypeConsecutiveTripleWith0_5,
-    SLPlayCardsTypeConsecutiveTripleWith0_6,
+    SLPlayCardsTypeConsecutiveTripleWith0_2,    //飞机（2连）
+    SLPlayCardsTypeConsecutiveTripleWith0_3,    //飞机（3连）
+    SLPlayCardsTypeConsecutiveTripleWith0_4,    //飞机（4连）
+    SLPlayCardsTypeConsecutiveTripleWith0_5,    //飞机（5连）
+    SLPlayCardsTypeConsecutiveTripleWith0_6,    //飞机（6连）
     SLPlayCardsTypeConsecutiveTripleWith1_2,
     SLPlayCardsTypeConsecutiveTripleWith1_3,
     SLPlayCardsTypeConsecutiveTripleWith1_4,
