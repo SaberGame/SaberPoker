@@ -166,4 +166,17 @@
     }
 }
 
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    UITouch *touch = [touches anyObject];
+    CGPoint point = [touch locationInView:self];
+    NSLog(@"%f   %f\n", point.x, point.y);
+}
+
+- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    UITouch *touch = [touches anyObject];
+    CGPoint point = [touch locationInView:self];
+    NSLog(@"%f   %f\n", point.x, point.y);
+}
+
+
 @end

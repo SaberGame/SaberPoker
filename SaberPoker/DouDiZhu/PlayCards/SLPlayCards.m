@@ -11,10 +11,70 @@
 
 @implementation SLPlayCards
 
+- (SLCardsDetail)configureDetil {
+    
+    if (self.cardsType == SLPlayCardsTypeSingle) {
+        SLCard *card = self.cardsArray.firstObject;
+        return card.point;
+    }
+    
+    if (self.cardsType == SLPlayCardsTypeDouble) {
+        SLCard *card = self.cardsArray.firstObject;
+        return card.point + 100;
+    }
+    
+    if (self.cardsType == SLPlayCardsTypeTripleWith0) {
+        SLCard *card = self.cardsArray.firstObject;
+        return card.point + 200;
+    }
+    
+    if (self.cardsType == SLPlayCardsTypeTripleWith1) {
+        return SLCardsDetail_sandai1;
+    }
+    
+    if (self.cardsType == SLPlayCardsTypeTripleWith2) {
+        return SLCardsDetail_sandai2;
+    }
+    
+    if (self.cardsType >= 10 && self.cardsType < 100) {
+        return SLCardsDetail_liandui;
+    }
+    
+    if (self.cardsType >= 100 && self.cardsType < 200) {
+        return SLCardsDetail_feiji;
+    }
+    
+    if (self.cardsType >= 200 && self.cardsType < 300) {
+        return SLCardsDetail_shunzi;
+    }
+    
+    if (self.cardsType == SLPlayCardsTypeBomb) {
+        return SLCardsDetail_zhadan;
+    }
+    
+    if (self.cardsType == SLPlayCardsTypeSuperBomb) {
+        return SLCardsDetail_wangzha;
+    }
+    
+    if (self.cardsType == SLPlayCardsTypeFourWith2Double) {
+        return SLCardsDetail_sidailiangdui;
+    }
+    
+    if (self.cardsType == SLPlayCardsTypeFourWith2) {
+        return SLCardsDetail_sidai2;
+    }
+    
+    return SLCardsDetail_None;
+}
+
 #pragma mark -------------------- Configure Type --------------------
 
 - (SLPlayCardsType)configureType {
     
+    if (self.cardsArray.count == 0) {
+        return SLPlayCardsTypeInvalid;
+    }
+
     //单张
     if (self.cardsArray.count == 1) {
         return SLPlayCardsTypeSingle;
@@ -120,7 +180,9 @@
         SLCard *card1 = self.cardsArray[0];
         SLCard *card2 = self.cardsArray[1];
         SLCard *card3 = self.cardsArray[2];
-        int a, b, c = 0;
+        int a = 0;
+        int b = 0;
+        int c = 0;
         for (int i = 0; i < 4; i++) {
             SLCard *card = self.cardsArray[i];
             if (card.point == card1.point) {
@@ -144,6 +206,66 @@
         
         if (a == 4 || b == 4 || c == 4  ) {
             return SLPlayCardsTypeFourWith2;
+        }
+    }
+    
+    //四带两对
+    if (self.cardsArray.count == 8) {
+        SLCard *card1 = self.cardsArray[0];
+        SLCard *card2 = self.cardsArray[2];
+        SLCard *card3 = self.cardsArray[4];
+        int a = 0;
+        int b = 0;
+        int c = 0;
+        for (int i = 0; i < 4; i++) {
+            SLCard *card = self.cardsArray[i];
+            if (card.point == card1.point) {
+                a++;
+            }
+        }
+        
+        for (int i = 2; i < 6; i++) {
+            SLCard *card = self.cardsArray[i];
+            if (card.point == card2.point) {
+                b++;
+            }
+        }
+        
+        for (int i = 4; i < 8; i++) {
+            SLCard *card = self.cardsArray[i];
+            if (card.point == card3.point) {
+                c++;
+            }
+        }
+        
+        if (a == 4) {
+            SLCard *card1 = self.cardsArray[4];
+            SLCard *card2 = self.cardsArray[5];
+            SLCard *card3 = self.cardsArray[6];
+            SLCard *card4 = self.cardsArray[7];
+            if (card1.point == card2.point && card3.point == card4.point) {
+                return SLPlayCardsTypeFourWith2Double;
+            }
+        }
+        
+        if (b == 4) {
+            SLCard *card1 = self.cardsArray[0];
+            SLCard *card2 = self.cardsArray[1];
+            SLCard *card3 = self.cardsArray[6];
+            SLCard *card4 = self.cardsArray[7];
+            if (card1.point == card2.point && card3.point == card4.point) {
+                return SLPlayCardsTypeFourWith2Double;
+            }
+        }
+        
+        if (c == 4) {
+            SLCard *card1 = self.cardsArray[0];
+            SLCard *card2 = self.cardsArray[1];
+            SLCard *card3 = self.cardsArray[2];
+            SLCard *card4 = self.cardsArray[3];
+            if (card1.point == card2.point && card3.point == card4.point) {
+                return SLPlayCardsTypeFourWith2Double;
+            }
         }
     }
     
@@ -485,7 +607,8 @@
 
 - (NSArray *)abResultWithArray:(NSArray *)arr {
     
-    int a, b = 0;
+    int a = 0;
+    int b = 0;
     for (int i = 0; i < arr.count; i+=2) {
         SLCard *card1 = arr[i];
         SLCard *card2 = arr[i + 1];

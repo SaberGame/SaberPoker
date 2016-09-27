@@ -13,6 +13,9 @@
 #import "UIImage+SLCategory.h"
 #import "SLPlayCards.h"
 #import "SLPlayView.h"
+#import "SLScoreSelectView.h"
+#import "SLTurnManager.h"
+#import "SLSoundManager.h"
 
 @interface SLMianViewController ()<SLPlayViewDelegate>
 
@@ -29,6 +32,11 @@
 @property (nonatomic, strong) UIButton *helpButton;
 
 @property (nonatomic, strong) SLPlayCards *playCards;
+@property (nonatomic, strong) SLTurnManager *turnManager;
+
+@property (nonatomic, strong) NSArray *currentCards;
+
+@property (nonatomic, strong) SLSoundManager *soundManager;
 
 @end
 
@@ -36,17 +44,24 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    [self initGame];
+}
+
+
+
+- (void)initGame {
     
     UIImageView *iconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg_normal"]];
     iconView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width);
     [self.view addSubview:iconView];
     
+    _soundManager = [[SLSoundManager alloc] init];
+    
     _playCardsArray = [NSMutableArray array];
     _playCards = [[SLPlayCards alloc] init];
-    [self initGame];
-}
-
-- (void)initGame {
+    _turnManager = [[SLTurnManager alloc] init];
+    
     _playerOne = [[SLPlayer alloc] init];
     _playerTwo = [[SLPlayer alloc] init];
     _playerThree = [[SLPlayer alloc] init];
@@ -82,6 +97,7 @@
     }];
     
     _playButton = [[UIButton alloc] initWithFrame:CGRectZero];
+    _playButton.hidden = YES;
     _playButton.enabled = NO;
     [_playButton setTitle:@"Play" forState:UIControlStateNormal];
     [_playButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -97,6 +113,13 @@
         make.bottom.equalTo(_playerCardsView.mas_top).offset(-20);
     }];
     
+    __weak typeof(self) weakself = self;
+    SLScoreSelectView  *scoreView = [[SLScoreSelectView alloc] initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.height / 6, [UIScreen mainScreen].bounds.size.width / 2 - 20, [UIScreen mainScreen].bounds.size.height * 2 / 3 , 40)];
+    scoreView.scoreSelectBlock = ^(NSInteger index){
+        NSLog(@"%zd", index);
+        weakself.playButton.hidden = NO;
+    };
+    [self.view addSubview:scoreView];
 }
 
 - (void)clickCardAtIndex:(NSInteger)index button:(UIButton *)button {
@@ -116,23 +139,49 @@
         }];
     }
     
-    _playButton.enabled = _playCardsArray.count != 0;
+//    _playButton.enabled = _playCardsArray.count != 0;
+    SLPlayCards *playCards = [[SLPlayCards alloc] init];
+    playCards.cardsArray = _playCardsArray.copy;
+    SLPlayCardsType type = [playCards configureType];
+    _playButton.enabled = type != SLPlayCardsTypeInvalid;
 }
 
 
 - (void)playCard {
     _playCards.cardsArray = _playCardsArray;
     SLPlayCardsType type = [_playCards configureType];
+    _playCards.cardsType = type;
     
     if (type == SLPlayCardsTypeInvalid) {
         NSLog(@"不能这样出牌少年");
     } else {
-        
+        [_soundManager playSoundWithCardsDetail:[_playCards configureDetil]];
         [_playerOne playCards:_playCardsArray];
+        _currentCards = _playCardsArray.copy;
         [self clearCard];
         [_playerCardsView loadViewWithCards:_playerOne.cardsArray];
         _playButton.enabled = NO;
+//        _playButton.hidden = YES;
+        __weak typeof(self) weakself = self;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [weakself playerTwoPlay];
+        });
     }
+}
+
+- (void)playerTwoPlay {
+    __weak typeof(self) weakself = self;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+       [weakself playerThreePlay];
+    });
+}
+
+- (void)playerThreePlay {
+    
+    __weak typeof(self) weakself = self;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        weakself.playButton.hidden = NO;
+    });
 }
 
 - (void)addCard:(SLCard *)card {
