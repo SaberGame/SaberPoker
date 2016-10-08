@@ -30,8 +30,8 @@
         [self addSubview:button];
         [button mas_makeConstraints:^(MASConstraintMaker *make) {
             make.bottom.top.mas_equalTo(0);
-            make.width.mas_equalTo([UIScreen mainScreen].bounds.size.width / 6);
-            make.left.mas_equalTo(i * [UIScreen mainScreen].bounds.size.width / 12);
+            make.width.mas_equalTo([UIScreen mainScreen].bounds.size.height / 6);
+            make.left.mas_equalTo(i * [UIScreen mainScreen].bounds.size.height / 12);
         }];
         
         NSString *type = nil;

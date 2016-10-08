@@ -17,6 +17,9 @@
 #import "SLTurnManager.h"
 #import "SLSoundManager.h"
 
+#define  kHeight [UIScreen mainScreen].bounds.size.height
+#define  kWidth [UIScreen mainScreen].bounds.size.width
+
 @interface SLMianViewController ()<SLPlayViewDelegate>
 
 @property (nonatomic, strong) SLPool *pool;
@@ -53,7 +56,7 @@
 - (void)initGame {
     
     UIImageView *iconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg_normal"]];
-    iconView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width);
+    iconView.frame = CGRectMake(0, 0, kWidth, kHeight);
     [self.view addSubview:iconView];
     
     _soundManager = [[SLSoundManager alloc] init];
@@ -114,7 +117,7 @@
     }];
     
     __weak typeof(self) weakself = self;
-    SLScoreSelectView  *scoreView = [[SLScoreSelectView alloc] initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.height / 6, [UIScreen mainScreen].bounds.size.width / 2 - 20, [UIScreen mainScreen].bounds.size.height * 2 / 3 , 40)];
+    SLScoreSelectView  *scoreView = [[SLScoreSelectView alloc] initWithFrame:CGRectMake(kWidth / 6, kHeight / 2 - 20, kWidth * 2 / 3 , 40)];
     scoreView.scoreSelectBlock = ^(NSInteger index){
         NSLog(@"%zd", index);
         weakself.playButton.hidden = NO;
@@ -129,13 +132,13 @@
         [self addCard:card];
         CGRect rect = button.frame;
         [UIView animateWithDuration:0.1 animations:^{
-            button.frame = CGRectMake(rect.origin.x, rect.origin.y - [UIScreen mainScreen].bounds.size.width / 30, rect.size.width, rect.size.height);
+            button.frame = CGRectMake(rect.origin.x, rect.origin.y - kHeight / 30, rect.size.width, rect.size.height);
         }];
     } else {
         [self removeCard:card];
         CGRect rect = button.frame;
         [UIView animateWithDuration:0.1 animations:^{
-            button.frame = CGRectMake(rect.origin.x, rect.origin.y + [UIScreen mainScreen].bounds.size.width / 30, rect.size.width, rect.size.height);
+            button.frame = CGRectMake(rect.origin.x, rect.origin.y + kHeight / 30, rect.size.width, rect.size.height);
         }];
     }
     
